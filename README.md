@@ -1,2 +1,42 @@
 # biblioteca-api
-O projeto é um desafio técnico para uma vaga de programador júnior onde o objetivo é desenvolver uma API Rest de gerenciamento de biblioteca que permitirá o controle de livros, usuários e empréstimo
+
+## Sobre o projeto
+
+O projeto é um **sistema de gerenciamento de biblioteca** desenvolvido como desafio técnico para vaga de desenvolvedor Júnior. O objetivo era o controle de livros, usuários e empréstimos através de uma **API REST**.
+
+## Funcionalidade implementadas:
+* Modelagem das entidades (Livro, Usuário, Empréstimo)
+
+## Como executar
+
+### Requisitos
+* Java - versão 21.0.8
+* Spring Boot - versão 3.5.5
+
+### Passo a passo
+1. Clone o repositório
+   #### git clone:
+
+   ##### SSH:
+   
+   ~~~java
+   git@github.com:gabrielnvsdev/biblioteca-api.git
+   ~~~
+   
+   ##### HTTP:
+   
+   ~~~  
+    https://github.com/gabrielnvsdev/biblioteca-api.git
+   ~~~
+
+3. Execute a aplicação
+   
+  	 ##### *Via Maven*:
+
+   ~~~java
+     ./mvnw spring-boot:run
+   ~~~
+
+  	 ##### *Via IDE*:
+   
+   Importe o projeto e execute a classe **BibliotecaApiApplication.java**
