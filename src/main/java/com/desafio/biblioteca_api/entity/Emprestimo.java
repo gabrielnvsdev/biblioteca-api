@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "loans")
+@Table(name = "emprestimos")
 public class Emprestimo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +31,8 @@ public class Emprestimo {
     private EmprestimoStatus status;
 
     public Emprestimo() {}
+
+    public Emprestimo(Usuario usuario, Livro livro) {}
 
     @PrePersist
     public void prePersist() {
@@ -61,6 +63,10 @@ public class Emprestimo {
 
     public LocalDate getDataEmprestimo() {
         return dataEmprestimo;
+    }
+
+    public void setDataEmprestimo(LocalDate dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
     }
 
     public LocalDate getDataDevolucaoPrevista() {

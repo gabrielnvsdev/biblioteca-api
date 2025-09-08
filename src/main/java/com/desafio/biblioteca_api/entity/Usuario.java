@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users", uniqueConstraints ={
+@Table(name = "usuarios", uniqueConstraints ={
         @UniqueConstraint(columnNames = "email"),
         @UniqueConstraint(columnNames = "cpf")
 })
