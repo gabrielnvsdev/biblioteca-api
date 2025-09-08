@@ -78,8 +78,16 @@ public class Livro {
         return quantidadeTotal;
     }
 
+   public void setQuantidadeTotal(Integer quantidadeTotal) {
+        this.quantidadeTotal = quantidadeTotal;
+   }
+
     public Integer getQuantidadeDisponivel() {
         return quantidadeDisponivel;
+    }
+
+    public void setQuantidadeDisponivel(Integer quantidadeDisponivel) {
+        this.quantidadeDisponivel = quantidadeDisponivel;
     }
 
     public LivroStatus getStatus() {
