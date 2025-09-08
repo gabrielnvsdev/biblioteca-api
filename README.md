@@ -5,8 +5,9 @@
 O projeto é um **sistema de gerenciamento de biblioteca** desenvolvido como desafio técnico para vaga de desenvolvedor Júnior. O objetivo era o controle de livros, usuários e empréstimos através de uma **API REST**.
 
 ## Funcionalidade implementadas:
-* Modelagem das entidades (Livro, Usuário, Empréstimo)
+* Entidades (Livro, Usuário, Empréstimo)
 * Repositórios (Livro, Usuario, Emprestimo)
+* Serviços ((Livro, Usuário, Empréstimo)
 
 ## Como executar
 
