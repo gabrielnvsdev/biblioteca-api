@@ -7,7 +7,8 @@ O projeto é um **sistema de gerenciamento de biblioteca** desenvolvido como des
 ## Funcionalidade implementadas:
 * Entidades (Livro, Usuário, Empréstimo)
 * Repositórios (Livro, Usuario, Emprestimo)
-* Serviços ((Livro, Usuário, Empréstimo)
+* Serviços (Livro, Usuário, Empréstimo)
+* Controladores (Livro, Usuário, Empréstimo)
 
 ## Como executar
 
