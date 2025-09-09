@@ -2,6 +2,8 @@ package com.desafio.biblioteca_api.service;
 
 import com.desafio.biblioteca_api.entity.Usuario;
 import com.desafio.biblioteca_api.repository.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,10 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    public Page<Usuario> findAll(Pageable pageable) {
+        return usuarioRepository.findAll(pageable);
+    }
+
     public List<Usuario> findAl(){
         return usuarioRepository.findAll();
     }
@@ -24,11 +30,11 @@ public class UsuarioService {
         return usuarioRepository.findById(id);
     }
 
-    public Usuario create (Usuario usuario){
+    public Usuario cadastraUsuario (Usuario usuario){
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario update (Long id, Usuario atualizado){
+    public Usuario atualizaUsuario (Long id, Usuario atualizado){
         return usuarioRepository.findById(id).map(usuario -> {
             usuario.setNome(atualizado.getNome());
             usuario.setEmail(atualizado.getEmail());

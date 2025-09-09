@@ -3,6 +3,8 @@ package com.desafio.biblioteca_api.service;
 import com.desafio.biblioteca_api.entity.Livro;
 import com.desafio.biblioteca_api.entity.LivroStatus;
 import com.desafio.biblioteca_api.repository.LivroRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,10 @@ public class LivroService {
        this.livroRepository = LivroRepository;
    }
 
+    public Page<Livro> findAll(Pageable pageable) {
+        return livroRepository.findAll(pageable);
+    }
+
    public List<Livro> findAll() {
        return livroRepository.findAll();
    }
@@ -24,13 +30,13 @@ public class LivroService {
        return livroRepository.findById(id);
    }
 
-   public Livro create (Livro livro){
+   public Livro cadastraLivro (Livro livro){
        livro.setStatus(LivroStatus.DISPONIVEL);
        livro.setQuantidadeDisponivel(livro.getQuantidadeTotal());
        return livroRepository.save(livro);
    }
 
-   public Livro update (Long id, Livro atualizado){
+   public Livro atualizaLivro (Long id, Livro atualizado){
        return livroRepository.findById(id).map(livro -> {
            livro.setTitulo(atualizado.getTitulo());
            livro.setAutor(atualizado.getAutor());
@@ -43,7 +49,7 @@ public class LivroService {
        }).orElseThrow(() -> new RuntimeException("Livro não encontrado"));
    }
 
-   public void delete (Long id){
+   public void deletaLivro (Long id){
        livroRepository.deleteById(id);
    }
 }
