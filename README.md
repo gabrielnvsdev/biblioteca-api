@@ -9,6 +9,7 @@ O projeto é um **sistema de gerenciamento de biblioteca** desenvolvido como des
 * Repositórios (Livro, Usuario, Emprestimo)
 * Serviços (Livro, Usuário, Empréstimo)
 * Controladores (Livro, Usuário, Empréstimo)
+* Testes unitários(Livro, Usuário, Empréstimo)
 
 ## Como executar
 
