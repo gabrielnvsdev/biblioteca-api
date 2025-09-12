@@ -25,7 +25,7 @@ public class EmprestimoService {
         this.livroRepository = livroRepository;
     }
 
-    public Emprestimo fazEmprestimo(Long usuarioId, Long livroId) {
+    public Emprestimo criaEmprestimo(Long usuarioId, Long livroId) {
         var usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         var livro = livroRepository.findById(livroId).orElseThrow(() -> new RuntimeException("Livro não encontrado"));
@@ -54,7 +54,7 @@ public class EmprestimoService {
         return emprestimoRepository.save(emprestimo);
     }
 
-    public Emprestimo devolveEmprestimo(Long emprestimoId){
+    public Emprestimo finalizaEmprestimo(Long emprestimoId){
         var emprestimo = emprestimoRepository.findById(emprestimoId).orElseThrow(() -> new RuntimeException("Empréstimo não encontrado"));
 
         if (emprestimo.getStatus() != EmprestimoStatus.ATIVO && emprestimo.getStatus() != EmprestimoStatus.ATRASADO) {
