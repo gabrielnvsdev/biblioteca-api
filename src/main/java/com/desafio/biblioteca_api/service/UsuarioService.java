@@ -36,10 +36,10 @@ public class UsuarioService {
 
     public Usuario atualizaUsuario (Long id, Usuario atualizado){
         return usuarioRepository.findById(id).map(usuario -> {
-            usuario.setNome(atualizado.getNome());
-            usuario.setEmail(atualizado.getEmail());
-            usuario.setCpf(atualizado.getCpf());
-            usuario.setStatus(atualizado.getStatus());
+            if (atualizado.getNome() != null) usuario.setNome(atualizado.getNome());
+            if (atualizado.getEmail() != null) usuario.setEmail(atualizado.getEmail());
+            if (atualizado.getCpf() != null) usuario.setCpf(atualizado.getCpf());
+            if (atualizado.getStatus() != null) usuario.setStatus(atualizado.getStatus());
             return usuarioRepository.save(usuario);
         }).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }

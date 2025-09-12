@@ -1,5 +1,6 @@
 package com.desafio.biblioteca_api.entity;
 
+import com.desafio.biblioteca_api.validation.Cpf;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,6 +26,7 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Cpf
     @NotBlank
     @Column(nullable = false, unique = true)
     private String cpf;
@@ -47,6 +49,8 @@ public class Usuario {
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id) {this.id = id;}
 
     public String getNome() {
         return nome;

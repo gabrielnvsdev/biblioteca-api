@@ -33,6 +33,13 @@ public class LivroService {
    public Livro cadastraLivro (Livro livro){
        livro.setStatus(LivroStatus.DISPONIVEL);
        livro.setQuantidadeDisponivel(livro.getQuantidadeTotal());
+
+       if (livro.getQuantidadeDisponivel() == 0) {
+           livro.setStatus(LivroStatus.INDISPONIVEL);
+       } else {
+           livro.setStatus(LivroStatus.DISPONIVEL);
+       }
+
        return livroRepository.save(livro);
    }
 
@@ -49,7 +56,7 @@ public class LivroService {
        }).orElseThrow(() -> new RuntimeException("Livro não encontrado"));
    }
 
-   public void deletaLivro (Long id){
+   public void removeLivro (Long id){
        livroRepository.deleteById(id);
    }
 }
