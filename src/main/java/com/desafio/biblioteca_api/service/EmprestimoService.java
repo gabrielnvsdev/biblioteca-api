@@ -1,8 +1,8 @@
 package com.desafio.biblioteca_api.service;
 
+import com.desafio.biblioteca_api.dto.EmprestimoDTO;
 import com.desafio.biblioteca_api.entity.Emprestimo;
 import com.desafio.biblioteca_api.entity.EmprestimoStatus;
-import com.desafio.biblioteca_api.entity.Livro;
 import com.desafio.biblioteca_api.entity.LivroStatus;
 import com.desafio.biblioteca_api.repository.EmprestimoRepository;
 import com.desafio.biblioteca_api.repository.LivroRepository;
@@ -15,7 +15,8 @@ import java.util.List;
 @Service
 public class EmprestimoService {
 
-    private final EmprestimoRepository emprestimoRepository;
+
+    private EmprestimoRepository emprestimoRepository;
     private final UsuarioRepository usuarioRepository;
     private final LivroRepository livroRepository;
 
@@ -25,12 +26,28 @@ public class EmprestimoService {
         this.livroRepository = livroRepository;
     }
 
-    public Emprestimo criaEmprestimo(Long usuarioId, Long livroId) {
+    private EmprestimoDTO toDTO(Emprestimo emprestimo) {
+        return new EmprestimoDTO(
+                emprestimo.getId(),
+                emprestimo.getUsuario().getId(),
+                emprestimo.getUsuario().getNome(),
+                emprestimo.getUsuario().getEmail(),
+                emprestimo.getLivro().getId(),
+                emprestimo.getLivro().getTitulo(),
+                emprestimo.getLivro().getAutor(),
+                emprestimo.getDataEmprestimo(),
+                emprestimo.getDataDevolucaoPrevista(),
+                emprestimo.getDataDevolucaoReal(),
+                emprestimo.getStatus()
+        );
+    }
+
+    public EmprestimoDTO criaEmprestimo(Long usuarioId, Long livroId) {
         var usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
         var livro = livroRepository.findById(livroId).orElseThrow(() -> new RuntimeException("Livro não encontrado"));
 
-        List<Emprestimo> activeEmprestimo = emprestimoRepository.findByUsuario(usuario).stream().filter(l -> l.getStatus() == EmprestimoStatus.ATIVO || l.getStatus() == EmprestimoStatus.ATRASADO).toList();
+        List<Emprestimo> activeEmprestimo = emprestimoRepository.findByUsuarioId(usuarioId).stream().filter(l -> l.getStatus() == EmprestimoStatus.ATIVO || l.getStatus() == EmprestimoStatus.ATRASADO).toList();
 
         if (activeEmprestimo.size() >= 3) {
             throw new RuntimeException("Usuário já possui 3 livros emprestados");
@@ -51,10 +68,11 @@ public class EmprestimoService {
         }
         livroRepository.save(livro);
 
-        return emprestimoRepository.save(emprestimo);
+        Emprestimo salvo = emprestimoRepository.save(emprestimo);
+        return toDTO(salvo);
     }
 
-    public Emprestimo finalizaEmprestimo(Long emprestimoId){
+    public EmprestimoDTO finalizaEmprestimo(Long emprestimoId){
         var emprestimo = emprestimoRepository.findById(emprestimoId).orElseThrow(() -> new RuntimeException("Empréstimo não encontrado"));
 
         if (emprestimo.getStatus() != EmprestimoStatus.ATIVO && emprestimo.getStatus() != EmprestimoStatus.ATRASADO) {
@@ -71,15 +89,23 @@ public class EmprestimoService {
         };
         livroRepository.save(livro);
 
-        return emprestimoRepository.save(emprestimo);
+        Emprestimo atualizado = emprestimoRepository.save(emprestimo);
+        return toDTO(atualizado);
+
     }
 
-    public List<Emprestimo> findAll() {
-        return emprestimoRepository.findAll();
+    public List<EmprestimoDTO> findAll() {
+        return emprestimoRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
 
-    public List<Emprestimo> findByUsuario(Long usuarioId) {
-        var usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
-        return emprestimoRepository.findByUsuario(usuario);
+    public List<EmprestimoDTO> findByUsuarioId(Long usuarioId) {
+        return emprestimoRepository.findByUsuarioId(usuarioId)
+                .stream()
+                .map(this::toDTO)
+                .toList();
     }
+
 }
