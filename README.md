@@ -16,6 +16,8 @@ O projeto é um **sistema de gerenciamento de biblioteca** desenvolvido como des
 ### Requisitos
 * Java - versão 21.0.8
 * Spring Boot - versão 3.5.5
+* Apache Maven - versão 3.9.9
+* PostgreSQL - versão 17.6
 
 ### Passo a passo
 1. Clone o repositório
@@ -33,9 +35,19 @@ O projeto é um **sistema de gerenciamento de biblioteca** desenvolvido como des
     https://github.com/gabrielnvsdev/biblioteca-api.git
    ~~~
 
-3. Execute a aplicação
+
+2. Preparando a aplicação
    
-  	 ##### *Via Maven*:
+Em **application.yml**, onde se encontra o profile de produção, substitua os campos abaixo para os respectivos configurados do seu banco PostgreSQL
+
+* Url;
+* Username
+* Password
+
+
+3. Executando a aplicação
+   
+  	##### *Via Maven*:
 
    ~~~java
      ./mvnw spring-boot:run
@@ -44,3 +56,16 @@ O projeto é um **sistema de gerenciamento de biblioteca** desenvolvido como des
   	 ##### *Via IDE*:
    
    Importe o projeto e execute a classe **BibliotecaApiApplication.java**
+
+   ##### *Alterando profile na hora da execução*
+
+   ~~~java
+   mvn spring-boot:run "-Dspring-boot.run.profiles=prod"
+   ~~~
+
+
+5. Executando testes
+   ##### *No terminal:*
+~~~
+mvn clean test jacoco:report
+~~~
