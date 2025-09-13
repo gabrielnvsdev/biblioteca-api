@@ -1,5 +1,6 @@
 package com.desafio.biblioteca_api.service;
 
+import com.desafio.biblioteca_api.dto.EmprestimoDTO;
 import com.desafio.biblioteca_api.entity.*;
 import com.desafio.biblioteca_api.repository.EmprestimoRepository;
 import com.desafio.biblioteca_api.repository.LivroRepository;
@@ -37,7 +38,7 @@ class EmprestimoServiceTest {
     void deveRetornarTodosEmprestimos() {
         when(emprestimoRepository.findAll()).thenReturn(List.of(new Emprestimo()));
 
-        List<Emprestimo> result = emprestimoService.findAll();
+        List<EmprestimoDTO> result = emprestimoService.findAll();
 
         assertEquals(1, result.size());
         verify(emprestimoRepository).findAll();
@@ -64,13 +65,13 @@ class EmprestimoServiceTest {
         emprestimo.setUsuario(usuario);
 
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
-        when(emprestimoRepository.findByUsuario(usuario)).thenReturn(List.of(emprestimo));
+        when(emprestimoRepository.findByUsuarioId(1L)).thenReturn(List.of(emprestimo));
 
-        List<Emprestimo> result = emprestimoService.findByUsuario(1L);
+        List<EmprestimoDTO> result = emprestimoService.findByUsuarioId(1L);
 
         assertEquals(1, result.size());
-        assertEquals(usuario, result.get(0).getUsuario());
-        verify(emprestimoRepository).findByUsuario(usuario);
+        assertEquals(usuario, result.get(0).getUsuarioNome());
+        verify(emprestimoRepository).findByUsuarioId(1L);
     }
 
     @Test
@@ -78,7 +79,7 @@ class EmprestimoServiceTest {
         when(usuarioRepository.findById(99L)).thenReturn(Optional.empty());
 
         RuntimeException ex = assertThrows(RuntimeException.class,
-                () -> emprestimoService.findByUsuario(99L));
+                () -> emprestimoService.findByUsuarioId(99L));
         assertEquals("Usuário não encontrado", ex.getMessage());
     }
 
@@ -104,11 +105,11 @@ class EmprestimoServiceTest {
 
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(livroRepository.findById(1L)).thenReturn(Optional.of(livro));
-        when(emprestimoRepository.findByUsuario(usuario)).thenReturn(List.of());
+        when(emprestimoRepository.findByUsuarioId(1L)).thenReturn(List.of());
         when(emprestimoRepository.save(any(Emprestimo.class))).thenAnswer(inv -> inv.getArgument(0));
 
         //When
-        Emprestimo emprestimo = emprestimoService.criaEmprestimo(1L, 1L);
+        EmprestimoDTO emprestimo = emprestimoService.criaEmprestimo(1L, 1L);
 
         //Then
         assertNotNull(emprestimo);
@@ -167,7 +168,7 @@ class EmprestimoServiceTest {
 
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
         when(livroRepository.findById(1L)).thenReturn(Optional.of(livro));
-        when(emprestimoRepository.findByUsuario(usuario)).thenReturn(List.of(emprestimo1, emprestimo2, emprestimo3));
+        when(emprestimoRepository.findByUsuarioId(1L)).thenReturn(List.of(emprestimo1, emprestimo2, emprestimo3));
 
         //When
         RuntimeException ex = assertThrows(RuntimeException.class,
@@ -204,7 +205,7 @@ class EmprestimoServiceTest {
         when(emprestimoRepository.save(any(Emprestimo.class))).thenAnswer(inv -> inv.getArgument(0));
 
         //When
-        Emprestimo returned = emprestimoService.finalizaEmprestimo(1L);
+        EmprestimoDTO returned = emprestimoService.finalizaEmprestimo(1L);
 
         //Then
         assertEquals(EmprestimoStatus.DEVOLVIDO, returned.getStatus());

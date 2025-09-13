@@ -12,9 +12,11 @@ public class Emprestimo {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "livro_id", nullable = false)
     private Livro livro;
 
     @Column(name = "data_emprestimo", nullable = false)
@@ -32,7 +34,7 @@ public class Emprestimo {
 
     public Emprestimo() {}
 
-    public Emprestimo(Usuario usuario, Livro livro) {}
+    public Emprestimo(Usuario usuario, Livro livro) {this.usuario = usuario; this.livro = livro;}
 
     @PrePersist
     public void prePersist() {
